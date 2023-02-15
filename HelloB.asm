@@ -40,8 +40,8 @@
 
 
 ;  The .386 directive enables assembly of nonprivileged instructions for the 80386 process and disables
-;  instructions introduced with later processors. This program requires at least this instruction set
-;  to run.
+;  instructions introduced with later processors. This program, because it uses 32 bit registers, requires 
+;  at least this instruction set to run.
 .386
 .model flat, stdcall
 
@@ -60,7 +60,7 @@ WriteConsoleA proto, :dword, :ptr byte, :dword, :ptr dword, :ptr dword
 .data
 msg   db "Hello world!", 0
 hcout dw 0					;  handle to the standard output device (console)
-n     dd 0                         ;  use this to hold string length
+n     dd 0                                      ;  use this to hold string length
 
 
 .code
@@ -73,7 +73,7 @@ main proc
 		
 		;  get string length to use in call to WriteConsoleA
 		lea  esi, msg			;  load address of msg into ESI
-		call strlen		     ;  call strlen to get length of string
+		call strlen		        ;  call strlen to get length of string
 		mov  n,   ecx			;  store result in n	
 				
 		invoke WriteConsoleA, hcout, offset msg, n, 0, 0		
@@ -87,19 +87,19 @@ main endp
 ;                just beyond it.                                                                         ;
 ;     Input:     Address of string in ESI                                                                ;
 ;     Return:    Number of characters in ECX                                                             ;
-;     Registers: AL, CX, ESI                                                                             ;
+;     Registers: EAX, ECX, ESI                                                                           ;
 ;--------------------------------------------------------------------------------------------------------;
 strlen proc
-		xor ecx, ecx			;  reset character count
-		cld					;  clear direction flag so the lodsb instruction increments esi
+		xor ecx, ecx                    ;  reset character count
+		cld                             ;  clear direction flag so the lodsb instruction increments ESI
 a:
-		lodsb				;  loads the current character (byte) pointed to by esi into AL and increments esi
-		cmp  al, 0			;  al == 0?
-		jz   done				;  if yes, we are done
-		inc  ecx			     ;  if no, increment counter		
-		jmp  a            	     ;  loop back to a
+		lodsb                           ;  loads the current character (byte) pointed to by ESI into AL and increments ESI
+		cmp  al, 0                      ;  AL == 0?
+		jz   done			;  if yes, we are done
+		inc  ecx                        ;  if no, increment counter
+		jmp  a                          ;  loop back to a
 done:
-		ret			          ;  return control to caller
+		ret                             ;  return control to caller
 strlen endp
 
-end							;  end of program
+end                                             ;  end of program
