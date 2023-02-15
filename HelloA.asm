@@ -59,7 +59,7 @@ hcout dw 0					;  handle to the standard output device (console)
 .code
 
 main:
-		;  the invoke directive calls the given procedure,passing the arguments
+		;  the invoke directive calls the given procedure, passing the arguments
 		;  on the stack or in registers according to the standard calling convention
 		invoke GetStdHandle, STD_OUTPUT_HANDLE
 		mov hcout, ax		
