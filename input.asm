@@ -64,33 +64,33 @@ buflen    dd 64
 .code
 
 main proc
-			;  get input and output handles
-		invoke GetStdHandle, STD_INPUT_HANDLE
-		mov hcin, ax			
-		invoke GetStdHandle, STD_OUTPUT_HANDLE
-		mov hcout, ax
+		;  get input and output handles
+	invoke GetStdHandle, STD_INPUT_HANDLE
+	mov hcin, ax			
+	invoke GetStdHandle, STD_OUTPUT_HANDLE
+	mov hcout, ax
 	
-			;  Prompt for input
-		lea esi, prompt
-		call     strlen	
-		invoke WriteConsoleA, hcout, offset prompt, ecx, 0, 0
-	
-	
-			;  Read input
-		lea edi, buffer
-		mov ecx, buflen	
-		call     readcon
+		;  Prompt for input
+	lea esi, prompt
+	call     strlen	
+	invoke WriteConsoleA, hcout, offset prompt, ecx, 0, 0
 	
 	
-			;  display input string
-		lea esi, buffer
-		call     strlen
-		invoke WriteConsoleA, hcout, offset buffer, ecx, 0, 0
+		;  Read input
+	lea edi, buffer
+	mov ecx, buflen	
+	call     readcon
 	
 	
-			;  exit program
-		xor eax, eax
-		ret
+		;  display input string
+	lea esi, buffer
+	call     strlen
+	invoke WriteConsoleA, hcout, offset buffer, ecx, 0, 0
+	
+	
+		;  exit program
+	xor eax, eax
+	ret
 main endp
 
 ;--------------------------------------------------------------------------------------------------------;
@@ -108,16 +108,16 @@ main endp
 ;                should be advised that CR + LF is included in that number.                              ;
 ;--------------------------------------------------------------------------------------------------------;
 readcon proc
-		local sz:dword									;  store character count in local variable
-		invoke ReadConsoleA, hcin, edi, ecx, addr sz, 0
+	local sz:dword						;  store character count in local variable
+	invoke ReadConsoleA, hcin, edi, ecx, addr sz, 0
 	
-		mov eax, sz
-		sub eax, 2									;  subtract 2 from the count
+	mov eax, sz
+	sub eax, 2						;  subtract 2 from the count
 	
-		add edi, eax									;  add count to the buffer offset
-		mov byte ptr[edi], 0							;  overwrite CR with NULL charcater
+	add edi, eax						;  add count to the buffer offset
+	mov byte ptr[edi], 0					;  overwrite CR with NULL charcater
 		
-		ret
+	ret
 readcon endp
 
 ;--------------------------------------------------------------------------------------------------------;
@@ -130,16 +130,16 @@ readcon endp
 ;     Registers: AL, CX, ESI                                                                             ;
 ;--------------------------------------------------------------------------------------------------------;
 strlen proc
-		xor ecx, ecx			;  reset character count
-		cld					;  clear direction flag so the lodsb instruction increments esi
+	xor ecx, ecx						;  reset character count
+	cld							;  clear direction flag so the lodsb instruction increments esi
 a:
-		lodsb				;  loads the current character (byte) pointed to by esi into AL and increments esi
-		cmp  al, 0			;  al == 0?
-		jz   done				;  if yes, we are done
-		inc  ecx			     ;  if no, increment counter
-		jmp  a            	     ;  loop back to a
+	lodsb							;  loads the current character (byte) pointed to by esi into AL and increments esi
+	cmp  al, 0						;  al == 0?
+	jz   done						;  if yes, we are done
+	inc  ecx			    			;  if no, increment counter
+	jmp  a            	     				;  loop back to a
 done:
-		ret			          ;  return control to caller
+	ret			          			;  return control to caller
 strlen endp
 
 end
