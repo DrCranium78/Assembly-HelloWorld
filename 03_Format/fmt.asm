@@ -79,7 +79,8 @@ main proc
      invoke wsprintfA, offset buffer, offset fmt, eax, ebx, ecx, edx	
 	
      invoke WriteConsoleA, hcout, offset buffer, eax, 0, 0
-	
+
+          ;  Among a number of other things, ExitProcess closes all object handle opened by the program.
      invoke ExitProcess, 0
 main endp
 
