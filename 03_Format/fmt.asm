@@ -39,7 +39,7 @@
 .386
 .model flat, stdcall
 
-	;  if we include libraries, we can omit the /defaultlib: option when linking
+     ;  if we include libraries, we can omit the /defaultlib: option when linking
 includelib kernel32.lib
 includelib   user32.lib
 
@@ -48,8 +48,8 @@ GetStdHandle   proto, :dword
 WriteConsoleA  proto, :dword, :ptr byte, :dword, :ptr dword, :ptr dword
 ExitProcess    proto, :dword
 
-	;  prototypes for functions in user32.lib. Note that the use of varargs requires C calling convention.
-wsprintfA proto C :ptr byte, :ptr byte, :vararg
+     ;  prototypes for functions in user32.lib. Note that the use of varargs requires C calling convention.
+wsprintfA proto C, :ptr byte, :ptr byte, :vararg
 
 
 STD_OUTPUT_HANDLE equ -11
@@ -66,21 +66,21 @@ fmt    db "EAX: %08x    EBX: %08x    ECX: %08x    EDX: %08x", 0
 .code
 
 main proc
-	invoke GetStdHandle, STD_OUTPUT_HANDLE
-	mov hcout, ax
+     invoke GetStdHandle, STD_OUTPUT_HANDLE
+     mov hcout, ax
 
-		;  set registers to known values for demonstration purposes.
-	mov eax, 010h
-	mov ebx, 0100h
-	mov ecx, 01000h
-	mov edx, 010000h
+          ;  Set registers to known values for demonstration purposes.
+     mov eax, 010h
+     mov ebx, 0100h
+     mov ecx, 01000h
+     mov edx, 010000h
 	
-		;  format the output using the format string. string length is returned in eax.
-	invoke wsprintfA, offset buffer, offset fmt, eax, ebx, ecx, edx	
+          ;  Format the output using the format string. String length is returned in eax.
+     invoke wsprintfA, offset buffer, offset fmt, eax, ebx, ecx, edx	
 	
-	invoke WriteConsoleA, hcout, offset buffer, eax, 0, 0
+     invoke WriteConsoleA, hcout, offset buffer, eax, 0, 0
 	
-	invoke ExitProcess, 0
+     invoke ExitProcess, 0
 main endp
 
 end
