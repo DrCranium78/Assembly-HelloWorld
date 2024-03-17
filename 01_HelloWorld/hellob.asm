@@ -12,7 +12,7 @@
 ;          (/subsystem:console isn't really necessary for this program, but this is how
 ;           to link if the main procedure wasn't called 'main'.)
 ;
-;          This program achieves exactly the same as HelloA.asm, but without hardcoding
+;          This program achieves exactly the same as helloa.asm, but without hardcoding
 ;          the string length into the second invoke directive. 
 ; 
 ;  License:
