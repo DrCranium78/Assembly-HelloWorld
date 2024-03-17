@@ -9,7 +9,7 @@
 ;          link /subsystem:console /defaultlib:kernel32.lib /entry:main input.obj
 ;
 ;          This program demostrates a simple, but not necessarily the best way to get input from
-;          the commend line. This program also introduces arrays and local variables.
+;          the command line. This program also introduces arrays and local variables.
 ; 
 ;  License:
 ;  
