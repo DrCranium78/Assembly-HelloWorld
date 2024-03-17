@@ -66,7 +66,7 @@ n     dd 0                                      ;  use this to hold string lengt
 .code
 
 ;  Placing the main part of the program in a procedure requires us to define entrypoint when linking.
-;  Naming it 'main' enables the linker to infer the subsytem, otherwise subsytem has to be defined.
+;  Naming it 'main' enables the linker to infer the subsytem, otherwise subsystem has to be defined.
 main proc
 		invoke GetStdHandle, STD_OUTPUT_HANDLE
 		mov hcout, ax		
